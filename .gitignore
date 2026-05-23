@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# 虚拟环境
+venv/
+.venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 数据和密钥
+app/data/.jwt-key
+
+# 系统文件
+.DS_Store
+Thumbs.db
+*.log
+
+# 前端测试依赖（不需要提交）
+frontend/tests/node_modules/
+frontend/tests/.git/

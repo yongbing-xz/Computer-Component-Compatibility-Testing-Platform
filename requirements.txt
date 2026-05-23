@@ -1,0 +1,8 @@
+# 硬件兼容性检测系统 - Python依赖
+# 仅保留无法用标准库替代的框架依赖
+# bcrypt -> hashlib.pbkdf2_hmac (标准库)
+# pyjwt -> hmac+base64+json (标准库)
+# psutil -> os/platform/ctypes/subprocess (标准库)
+fastapi>=0.104.1,<1.0.0
+uvicorn[standard]>=0.24.0,<1.0.0
+python-multipart>=0.0.6,<1.0.0
