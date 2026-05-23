@@ -1,0 +1,81 @@
+spring:
+  application:
+    name: hardware-compatibility-checker
+    
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+    
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./data/hardware_checker;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
+    username: sa
+    password: password
+    
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+    
+  # 缓存配置
+  cache:
+    type: simple
+    cache-null-values: false
+          
+  # 服务器配置
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /
+  
+  # 静态资源配置 — 仅使用classpath，去掉file:./避免安全隐患
+  web:
+    resources:
+      static-locations: classpath:/static/,classpath:/public/
+      cache:
+        period: 0
+
+# Swagger配置
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+# JWT配置 — 首次运行时自动生成随机密钥并保存
+app:
+  jwt:
+    secret: ${JWT_SECRET:}
+    expiration: 86400000 # 24小时
+    refresh-expiration: 604800000 # 7天
+
+# 日志配置
+logging:
+  level:
+    root: info
+    com.hardware.compatibility: ${LOG_LEVEL:info}
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X{traceId}] %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X{traceId}] %logger{36} - %msg%n"
+
+# Spring Boot Actuator 配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,loggers,env
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+  metrics:
+    export:
+      prometheus:
+        enabled: false
